@@ -12,6 +12,7 @@ LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
 LoadModule dir_module modules/mod_dir.so
 LoadModule authz_core_module modules/mod_authz_core.so
 LoadModule unixd_module modules/mod_unixd.so
+LoadModule mime_module modules/mod_mime.so
 #LoadModule log_config_module modules/mod_log_config.so
 
 Define ROOT ${ROOT_DIR}
@@ -24,3 +25,5 @@ PidFile "${ROOT_DIR}/.config/apache/httpd.pid"
 
 User ${USER}
 Group ${USER}
+
+AddType application/javascript .js
