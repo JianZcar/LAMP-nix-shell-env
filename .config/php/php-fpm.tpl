@@ -3,9 +3,11 @@ error_log = ${ROOT_DIR}/.config/php/php-fpm.error.log
 pid = ${ROOT_DIR}/.config/php/php-fpm.pid
 
 [www]
+user = www-data
+group = www-data
 listen = ${ROOT_DIR}/.config/php/php-fpm.sock
-listen.owner = ${USER}
-listen.group = ${USER}
+listen.owner = www-data
+listen.group = www-data
 listen.mode = 0660
 
 pm = dynamic

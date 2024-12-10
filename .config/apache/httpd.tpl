@@ -23,7 +23,7 @@ ServerName localhost
 ErrorLog "${ROOT_DIR}/.config/apache/error.log"
 PidFile "${ROOT_DIR}/.config/apache/httpd.pid"
 
-User ${USER}
-Group ${USER}
+User www-data
+Group www-data
 
 AddType application/javascript .js

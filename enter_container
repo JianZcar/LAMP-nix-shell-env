@@ -1,0 +1,3 @@
+#!/bin/bash
+
+podman run -v .:/project:z -p 8080:8080 -p 3306:3306 --rm -ti ubuntu-with-nix bash -c "cd /project && nix-shell"
