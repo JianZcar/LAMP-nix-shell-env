@@ -15,7 +15,7 @@ start_php_fpm() { echo "Starting PHP-FPM..."; php-fpm -y "$PWD/.config/php/php-f
 stop_php_fpm() { echo "Stopping PHP-FPM..."; [ -f "$PHP_FPM_PID" ] && kill "$(cat "$PHP_FPM_PID")" && rm -f "$PHP_FPM_PID" || echo "PHP-FPM is not running."; }
 restart_php_fpm() { stop_php_fpm; sleep 1; start_php_fpm; }
 
-start_mysql() { echo "Starting MySQL..."; mysqld --no-defaults --datadir="$PWD/.config/mysql/data" --pid-file="$MYSQL_PID_FILE" --socket="$MYSQL_SOCKET" --bind-address=127.0.0.1 2> "$PWD/.config/mysql/mysql.log" & echo $! > "$MYSQL_PID_FILE"; }
+start_mysql() { echo "Starting MySQL..."; mysqld --no-defaults --datadir="$PWD/.config/mysql/data" --pid-file="$MYSQL_PID_FILE" --socket="$MYSQL_SOCKET" --bind-address=0.0.0.0 --user=root 2> "$PWD/.config/mysql/mysql.log" & echo $! > "$MYSQL_PID_FILE"; }
 stop_mysql() { echo "Stopping MySQL..."; [ -f "$MYSQL_PID_FILE" ] && mysqladmin -u root --socket="$MYSQL_SOCKET" shutdown && rm -f "$MYSQL_PID_FILE" || echo "MySQL is not running."; }
 restart_mysql() { stop_mysql; sleep 1; start_mysql; }
 
