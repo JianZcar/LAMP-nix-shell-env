@@ -57,13 +57,6 @@ pkgs.mkShell {
     mysqld --no-defaults --datadir="$MYSQL_DATADIR" --pid-file="$MYSQL_PID_FILE" \
     --socket="$MYSQL_UNIX_PORT" --bind-address=0.0.0.0 --user=root 2> "$MYSQL_HOME/mysql.log" &
     MYSQL_PID=$!
-    
-    # Wait for MySQL to start and be ready to accept commands
-    sleep 5
-
-    # Grant all privileges to root from any host
-    echo "Granting privileges to 'root'@'%' ..."
-    bash -c "mysql -u root --socket=\"$MYSQL_UNIX_PORT\" -e 'GRANT ALL PRIVILEGES ON *.* TO \"root\"@\"%\" IDENTIFIED BY \"\"; FLUSH PRIVILEGES;'"
 
     finish()
     {
