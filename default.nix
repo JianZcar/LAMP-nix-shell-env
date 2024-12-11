@@ -49,7 +49,7 @@ pkgs.mkShell {
       mysql_install_db --no-defaults --auth-root-authentication-method=normal \
         --datadir="$MYSQL_DATADIR" --basedir="$MYSQL_BASEDIR" \
         --pid-file="$MYSQL_PID_FILE"
-    fi
+  		fi
 
     # Starts the daemon
     # - Don't load mariadb global defaults in /etc with `--no-defaults`
@@ -66,7 +66,7 @@ pkgs.mkShell {
 				mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 		else
 				echo "User 'root'@'%' does not exist. Creating user and granting privileges..."
-				mysql -u root -e "CREATE USER 'root'@'%' IDENTIFIED BY 'your_password';"
+				mysql -u root -e "CREATE USER 'root'@'%';"
 				mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 		fi
 
