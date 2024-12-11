@@ -7,7 +7,7 @@ pkgs.mkShell {
   buildInputs = [
     pkgs.apacheHttpd
     pkgs.mariadb
-    pkgs.php
+    pkgs.php84
     pkgs.gettext
     pkgs.liburing
     pkgs.php84Packages.composer
