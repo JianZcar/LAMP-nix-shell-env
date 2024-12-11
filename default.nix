@@ -9,6 +9,7 @@ pkgs.mkShell {
     pkgs.mariadb
     pkgs.php
     pkgs.gettext
+    pkgs.liburing
     pkgs.php84Packages.composer
     pkgs.nodejs_23
   ];
@@ -57,6 +58,17 @@ pkgs.mkShell {
     mysqld --no-defaults --datadir="$MYSQL_DATADIR" --pid-file="$MYSQL_PID_FILE" \
     --socket="$MYSQL_UNIX_PORT" --bind-address=0.0.0.0 --user=root 2> "$MYSQL_HOME/mysql.log" &
     MYSQL_PID=$!
+    
+    sleep 5
+    	mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+    	if mysql -u root -e "SELECT User, Host FROM mysql.user WHERE User = 'root' AND Host = '%';" | grep -q 'root'; then
+				echo "User 'root'@'%' already exists. Granting privileges..."
+				mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+		else
+				echo "User 'root'@'%' does not exist. Creating user and granting privileges..."
+				mysql -u root -e "CREATE USER 'root'@'%' IDENTIFIED BY 'your_password';"
+				mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+		fi
 
     finish()
     {
