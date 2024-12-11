@@ -49,7 +49,7 @@ pkgs.mkShell {
       mysql_install_db --no-defaults --auth-root-authentication-method=normal \
         --datadir="$MYSQL_DATADIR" --basedir="$MYSQL_BASEDIR" \
         --pid-file="$MYSQL_PID_FILE"
-  		fi
+  			fi
 
     # Starts the daemon
     # - Don't load mariadb global defaults in /etc with `--no-defaults`
