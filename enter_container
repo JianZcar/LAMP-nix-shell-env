@@ -5,5 +5,5 @@ if ! podman image inspect "ubuntu-with-nix" &> /dev/null; then
     podman build -t "ubuntu-with-nix" .
 fi
 
-podman run --privileged -v .:/project:z -p 8080:8080 -p 3306:3306 --rm -ti ubuntu-with-nix sh -c "cd /project && nix-shell --run 'make'"
+podman run --privileged -v .:/project:z -p 8080:8080 -p 3306:3306 --rm -ti ubuntu-with-nix sh -c "cd /project && nix-shell"
 
