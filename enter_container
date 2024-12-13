@@ -1,9 +1,29 @@
 #!/usr/bin/env bash
 
+CONTAINER_NAME="lamp_dev"
+
+# Check if the image "ubuntu-with-nix" exists; if not, build it
 if ! podman image inspect "ubuntu-with-nix" &> /dev/null; then
-    # Build the image if it doesn't exist
+    echo "Building image 'ubuntu-with-nix'..."
     podman build -t "ubuntu-with-nix" .
 fi
 
-podman run --privileged -v .:/project:z -p 8080:8080 -p 3306:3306 --rm -ti ubuntu-with-nix sh -c "cd /project && nix-shell"
+# Check if the container exists
+if podman container inspect "$CONTAINER_NAME" &> /dev/null; then
+    echo "Container '$CONTAINER_NAME' already exists."
 
+    # Check if the container is already running
+    if podman ps --filter "name=$CONTAINER_NAME" --filter "status=running" | grep -q "$CONTAINER_NAME"; then
+        echo "Container '$CONTAINER_NAME' is already running. Attaching..."
+        podman attach "$CONTAINER_NAME"
+    else
+        echo "Starting and attaching to container '$CONTAINER_NAME'..."
+        podman start -ai "$CONTAINER_NAME"
+    fi
+else
+    echo "Creating and starting container '$CONTAINER_NAME'..."
+    podman run --privileged --name "$CONTAINER_NAME" \
+        -v .:/project:z -p 8080:8080 -p 3306:3306 \
+        -ti ubuntu-with-nix \
+        sh -c "cd /project && nix-shell"
+fi
