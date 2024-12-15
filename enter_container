@@ -22,7 +22,7 @@ if podman container inspect "$CONTAINER_NAME" &> /dev/null; then
     fi
 else
     echo "Creating and starting container '$CONTAINER_NAME'..."
-    podman run --privileged --name "$CONTAINER_NAME" \
+    podman run --network container-network --privileged --name "$CONTAINER_NAME" \
         -v .:/project:z -p 8080:8080 -p 3306:3306 \
         -ti ubuntu-with-nix \
         sh -c "cd /project && nix-shell"
